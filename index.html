@@ -1,0 +1,121 @@
+<html ng-app>
+<head>
+	<title>Timezone</title>
+	<style type="text/css">
+		.control{
+			padding: 20px;
+			margin: 0 auto;
+			display: inline-block;
+			width: 30%;
+		}
+
+		.controlContainer{
+			width:80%;
+			margin: 0 auto;
+		}
+
+		.control table tr td{
+			text-align: left;
+		}
+	</style>
+</head>
+<body>
+
+<div ng-controller='indexCtrl'>
+	<div>{{ title }}</div>
+	<div>{{ time }}</div>
+
+	<div class='controlContainer'>
+
+		<div class='control'>
+			{{currentTime}}
+		</div>
+
+		<br>
+
+		<div class='control'>
+			<p>{{ zone1 }}</p>
+			<select ng-model="zone1" ng-options="zone for zone in zones"></select><br>
+			<p>{{ zone1Response }} Response</p>
+			<table>
+				<tr>
+					<th>Time</th>
+				</tr>
+				<tr ng-repeat="item in responseTime1">
+					<td>{{item}}</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class='control'>
+			<p>{{ zone12 }}</p>
+			<select ng-model="zone12" ng-options="zone for zone in zones"></select><br>
+			<p>{{ zone12Response }} Response</p>
+			<table>
+				<tr>
+					<th>Time</th>
+				</tr>
+				<tr ng-repeat="item in responseTime2">
+					<td>{{item}}</td>
+				</tr>
+			</table>
+		</div>
+
+		<br>
+
+		<button ng-click="build()">Execute</button>
+	</div>
+</div>
+
+<script type="text/javascript" src='angular.min.js'></script>
+<script type="text/javascript" src='moment.min.js'></script>
+<script type="text/javascript" src='moment-timezone-with-data.min.js'></script>
+<script type="text/javascript">
+	function indexCtrl($scope){
+
+		var timeFormat = "h:mm:ss a";
+		var format =  "MMM Do YYY " + timeFormat;
+
+		$scope.title = "TimeZone";
+		$scope.zone1 = "";
+		$scope.zone12 = "";
+
+		var dec = moment();
+
+		$scope.time = dec.tz('America/Los_Angeles'); 
+
+		$scope.zones = moment.tz.names();
+
+		$scope.currentTime = dec.format(format);
+
+
+		$scope.build = function(){
+			$scope.zone1Response = dec.clone().tz($scope.zone1).format(format);
+			$scope.zone12Response = dec.clone().tz($scope.zone12).format(format);
+
+			$scope.responseTime1 = []
+			$scope.responseTime2 = []
+
+			var time = moment("2012-12-12 00:00").tz($scope.zone1);
+
+			for(var i=0;i<6;i++){
+				time = time.add(i*3,"hours")
+
+				$scope.responseTime1.push( time.format(timeFormat) )
+
+
+				var test = time.clone().tz($scope.zone12) //.format(format)
+
+				console.log(test);
+
+				$scope.responseTime2.push( test.format(timeFormat) )
+			}
+		}
+
+		$scope.responseTime1 = [3,6,9,12,15,18];
+		$scope.responseTime2 = [3,6,9,12,15,18,20];
+
+	}
+</script>
+</body>
+</html>
