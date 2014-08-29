@@ -11,7 +11,7 @@ body{
 }
 
 .control span{
-	font-size: 22px;
+	font-size: 20px;
 	font-family: sans-serif Arial;
 	display: block;
 	margin:5px;
@@ -24,6 +24,8 @@ body{
 #localTime{
 	text-align: center;
 	margin:15px;
+	font-size: 22px;
+	font-family: sans-serif Arial;
 }
 
 .controlContainer{
