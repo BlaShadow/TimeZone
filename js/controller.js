@@ -1,23 +1,24 @@
 /** contorller **/
 
-app.controller('indexCtrl',function($scope){
+app.controller('indexCtrl',function($scope,$interval){
 
 	var timeFormat = "h:mm:ss a";
-	var format =  "MMM Do YYY " + timeFormat;
+	var format =  "MMM Do YYYY " + timeFormat;
 
-	$scope.title = "TimeZone";
 	$scope.zone1 = "";
 	$scope.zone12 = "";
 
-	var dec = moment();
-
-	$scope.time = dec.tz('America/Los_Angeles'); 
-
 	$scope.zones = moment.tz.names();
 
-	$scope.currentTime = dec.format(format);
+	$scope.currentTime = "";
+
+	$interval(function(){
+		$scope.currentTime = moment().format(format);
+	},1000);
 
 	$scope.build = function(){
+		if( $scope.zone1 == "" || $scope.zone2 == "")return;
+
 		$scope.zone1Response = dec.clone().tz($scope.zone1).format(format);
 		$scope.zone12Response = dec.clone().tz($scope.zone12).format(format);
 
@@ -30,18 +31,13 @@ app.controller('indexCtrl',function($scope){
 			time = time.add(i*3,"hours")
 
 			$scope.responseTime1.push( time.format(timeFormat) )
-
-
-			var test = time.clone().tz($scope.zone12) //.format(format)
-
-			console.log(test);
-
-			$scope.responseTime2.push( test.format(timeFormat) )
+		
+			$scope.responseTime2.push( time.clone().tz($scope.zone12).format(timeFormat) )
 		}
 	}
 
 	$scope.responseTime1 = [3,6,9,12,15,18];
-	$scope.responseTime2 = [3,6,9,12,15,18,20];
+	$scope.responseTime2 = [3,6,9,12,15,18];
 
 });
 

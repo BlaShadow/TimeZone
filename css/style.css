@@ -1,10 +1,29 @@
 /** Style.css **/
+body{
+	background: #eee !important;
+}
 
 .control{
-	padding: 20px;
-	margin: 0 auto;
+	margin: 4%;
+	width: 40%;
 	display: inline-block;
-	width: 30%;
+	text-align: center;
+}
+
+.control span{
+	font-size: 22px;
+	font-family: sans-serif Arial;
+	display: block;
+	margin:5px;
+}
+
+.control select{
+	margin:5px;
+}
+
+#localTime{
+	text-align: center;
+	margin:15px;
 }
 
 .controlContainer{
@@ -14,4 +33,5 @@
 
 .control table tr td{
 	text-align: left;
+	font-family: sans-serif Arial;
 }
