@@ -10,25 +10,30 @@ app.controller('indexCtrl',function($scope,$interval){
 
 	$scope.zones = moment.tz.names();
 
-	$scope.currentTime = "";
+	$scope.currentTime = moment().format(format);;
 
 	$interval(function(){
 		$scope.currentTime = moment().format(format);
 	},1000);
 
 	$scope.build = function(){
-		if( $scope.zone1 == "" || $scope.zone2 == "")return;
 
-		$scope.zone1Response = dec.clone().tz($scope.zone1).format(format);
-		$scope.zone12Response = dec.clone().tz($scope.zone12).format(format);
+		var local = moment();
+
+		if( $scope.zone1 == "" && $scope.zone2 == "")return;
+
+		$scope.zone1Response = local.clone().tz($scope.zone1).format(format);
+		$scope.zone12Response = local.clone().tz($scope.zone12).format(format);
 
 		$scope.responseTime1 = []
 		$scope.responseTime2 = []
 
-		var time = moment("2012-12-12 00:00").tz($scope.zone1);
+		var time = moment.tz("2012-12-12 00:00",$scope.zone1);
 
-		for(var i=0;i<6;i++){
-			time = time.add(i*3,"hours")
+		for(var i=0;i<8;i++){
+
+			// this not return a new object it change it self ( mutable object )
+			time.add(3,"hours")
 
 			$scope.responseTime1.push( time.format(timeFormat) )
 		
